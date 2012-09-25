@@ -246,7 +246,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
     // Number of per-network elements expected in QUERY_AVAILABLE_NETWORKS's response.
     // 4 elements is default, but many RILs actually return 5, making it impossible to
     // divide the response array without prior knowledge of the number of elements.
-    protected int mQANElements = 4;
+    protected int mQANElements = 5;
 
     //***** Events
 
@@ -1621,6 +1621,21 @@ public class RIL extends BaseCommands implements CommandsInterface {
                     + " " + operatorNumeric);
 
         rr.mp.writeString(operatorNumeric);
+
+        send(rr);
+    }
+
+    public void
+    setNetworkSelectionModeManual(String operatorNumeric, String operatorRAT, Message response) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_SET_NETWORK_SELECTION_MANUAL,
+                                    response);
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest)
+                    + " " + operatorNumeric);
+
+        rr.mp.writeString(operatorNumeric);
+        rr.mp.writeString(operatorRAT);
 
         send(rr);
     }
@@ -3345,7 +3360,8 @@ public class RIL extends BaseCommands implements CommandsInterface {
                     strings[i+0],
                     strings[i+1],
                     strings[i+2],
-                    strings[i+3]));
+                    strings[i+3],
+                    strings[i+4]));
         }
 
         return ret;

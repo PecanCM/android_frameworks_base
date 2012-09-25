@@ -993,6 +993,7 @@ public class GSMPhone extends PhoneBase {
         public Message message;
         public String operatorNumeric;
         public String operatorAlphaLong;
+        public String operatorRAT;
     }
 
     public void
@@ -1004,6 +1005,7 @@ public class GSMPhone extends PhoneBase {
         nsm.message = response;
         nsm.operatorNumeric = "";
         nsm.operatorAlphaLong = "";
+        nsm.operatorRAT = "";
 
         // get the message
         Message msg = obtainMessage(EVENT_SET_NETWORK_AUTOMATIC_COMPLETE, nsm);
@@ -1022,11 +1024,12 @@ public class GSMPhone extends PhoneBase {
         nsm.message = response;
         nsm.operatorNumeric = network.getOperatorNumeric();
         nsm.operatorAlphaLong = network.getOperatorAlphaLong();
+        nsm.operatorRAT = network.getOperatorRAT();
 
         // get the message
         Message msg = obtainMessage(EVENT_SET_NETWORK_MANUAL_COMPLETE, nsm);
 
-        mCM.setNetworkSelectionModeManual(network.getOperatorNumeric(), msg);
+        mCM.setNetworkSelectionModeManual(network.getOperatorNumeric(), network.getOperatorRAT(), msg);
     }
 
     public void
