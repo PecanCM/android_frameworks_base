@@ -697,11 +697,7 @@ public class WindowManagerService extends IWindowManager.Stub
                     case MotionEvent.ACTION_DOWN: {
                         if (DEBUG_DRAG) {
                             Slog.w(TAG, "Unexpected ACTION_DOWN in drag layer");
-                        }
-                    } break;
-
-                    case MotionEvent.ACTION_MOVE: {
-                        synchronized (mWindowMap) {
+                                   synchronized (mWindowMap) {
                             // move the surface and tell the involved window(s) where we are
                             mDragState.notifyMoveLw(newX, newY);
                         }
@@ -9531,28 +9527,49 @@ public class WindowManagerService extends IWindowManager.Stub
                 if (DEBUG_ORIENTATION &&
                         winAnimator.mDrawState == WindowStateAnimator.DRAW_PENDING) Slog.i(
                         TAG, "Resizing " + win + " WITH DRAW PENDING");
+<<<<<<< HEAD
+=======
+                final boolean reportDraw
+                        = winAnimator.mDrawState == WindowStateAnimator.DRAW_PENDING;
+                final Configuration newConfig = configChanged ? win.mConfiguration : null;
+>>>>>>> d53e351568c6be9e2aeae5551f6ffcb402b84b6a
                 if (win.mClient instanceof IWindow.Stub) {
                     // Simulate one-way call if win.mClient is a local object.
                     final IWindow client = win.mClient;
                     final Rect frame = win.mFrame;
                     final Rect contentInsets = win.mLastContentInsets;
                     final Rect visibleInsets = win.mLastVisibleInsets;
+<<<<<<< HEAD
                     final boolean reportDraw = winAnimator.mDrawState == WindowStateAnimator.DRAW_PENDING;
                     final Configuration newConfig = configChanged ? win.mConfiguration : null;
+=======
+>>>>>>> d53e351568c6be9e2aeae5551f6ffcb402b84b6a
                     mH.post(new Runnable() {
                         @Override
                         public void run() {
                             try {
+<<<<<<< HEAD
                                 client.resized(frame, contentInsets, visibleInsets, reportDraw, newConfig);
                             } catch (RemoteException e) {
                                 // Actually, it's not a remote call. RemoteException mustn't be raised.
+=======
+                                client.resized(frame, contentInsets, visibleInsets,
+                                               reportDraw, newConfig);
+                            } catch (RemoteException e) {
+                                // Actually, it's not a remote call.
+                                // RemoteException mustn't be raised.
+>>>>>>> d53e351568c6be9e2aeae5551f6ffcb402b84b6a
                             }
                         }
                     });
                 } else {
                     win.mClient.resized(win.mFrame, win.mLastContentInsets, win.mLastVisibleInsets,
+<<<<<<< HEAD
                             winAnimator.mDrawState == WindowStateAnimator.DRAW_PENDING,
                             configChanged ? win.mConfiguration : null);
+=======
+                                        reportDraw, newConfig);
+>>>>>>> d53e351568c6be9e2aeae5551f6ffcb402b84b6a
                 }
                 win.mContentInsetsChanged = false;
                 win.mVisibleInsetsChanged = false;
